@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer';
 import MainContent from './components/MainContent/MainContent';
 import AddPost from './pages/AddPost/AddPost';
 import ModificaPost from './pages/ModificaPost/ModificaPost';
+import Login from './pages/Login/Login';
 import PostDetail from './pages/LerPost/LerPost';
 import PostList from './pages/PostList/PostList';
 import taskReducer from './reducers/taskReducer';
@@ -66,7 +67,8 @@ function App() {
             } />
             <Route path="/criar"      element={<AddPost />} />
             <Route path="/post/:id"   element={<PostDetail />} />        
-            <Route path="/modificar/:id"  element={<ModificaPost posts={state.posts} />} /> 
+            <Route path="/modificar"  element={<ModificaPost posts={state.posts} />} /> 
+            <Route path="/login-docente" element={<Login />} /> 
           </Routes>
         </MainContent>
         <Footer />

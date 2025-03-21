@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 // Container principal do Header
 const HeaderContainer = styled.header`
@@ -57,6 +58,8 @@ const StyledLink = styled(Link)`
   }
 `;
 
+const navigate = useNavigate();
+
 const Header: React.FC = () => {
   return (
     <HeaderContainer>
@@ -72,7 +75,7 @@ const Header: React.FC = () => {
 
       {/* Botões à direita */}
       <ButtonGroup>
-        <Button>Sou Docente</Button>
+        <Button onClick={() => navigate("/login-docente")}>Sou Docente</Button>
       </ButtonGroup>
     </HeaderContainer>
   );
