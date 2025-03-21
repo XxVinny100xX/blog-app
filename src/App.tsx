@@ -93,9 +93,9 @@ function App() {
                 <PostList posts={state.posts} />
               </>
             } />
-            <Route path="/criar" element={<AddPost onAddPost={addpost} />} />
-            <Route path="/post/:id" element={<PostDetail posts={state.posts} />} />        
-            <Route path="/modificar" element={<ModificaPost post={state.posts} onModificaPost={atualizaPost} />} /> 
+            <Route path="/criar"      element={<AddPost onAddPost={addpost} />} />
+            <Route path="/post/:id"   element={<PostDetail posts={state.posts} />} />        
+            <Route path="/modificar"  element={<ModificaPost posts={state.posts} onModificaPost={atualizaPost} />} /> 
           </Routes>
         </MainContent>
         <Footer />
