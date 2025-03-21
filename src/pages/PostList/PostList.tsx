@@ -73,7 +73,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
             <PostAuthor>criado por: {post.autor}</PostAuthor>
             <PostContent>{post.conteudo}</PostContent>
           </PostInfo>
-          <Link to={`/post/${post.id}`}>
+          <Link to={'/post/' + String(post.id)}>
             <Button>Acessar Post</Button>
           </Link>
         </ListItem>

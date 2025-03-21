@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Post } from '../../types';
+import { updatePost } from '../../api';
 
 interface ModificaPostProps {
   posts: Post[];
-  onModificaPost: (post: Post) => void;
 }
 
 const Container = styled.div`
@@ -83,30 +83,77 @@ const CancelButton = styled.button`
   }
 `;
 
-const ModificaPost: React.FC<ModificaPostProps> = ({ posts, onModificaPost }) => {
-  const { id } = useParams<{ id: string }>();
+const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const postId = searchParams.get("id");
   const navigate = useNavigate();
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<Post | undefined>(undefined);
+  const [titulo, setTitulo] = useState('');
+  const [conteudo, setConteudo] = useState('');
+  const [autor, setAutor] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const foundPost = posts.find((p) => p.id === Number(id));
-    if (foundPost) {
-      setPost(foundPost);
+    if (postId) {
+      const foundPost = posts.find(p => String(p.id) === postId);
+      if (foundPost) {
+        setPost(foundPost);
+        setTitulo(foundPost.titulo);
+        setConteudo(foundPost.conteudo);
+        setAutor(foundPost.autor);
+      }
     }
-  }, [id, posts]);
+  }, [posts, postId]);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    if(!titulo || !conteudo || !autor) {
+      setError('Preencha todos os campos!');
+      setLoading(false);
+      return;
+    }
+
+    if (!post || !post.id) {
+      setError('Post não encontrado!');
+      setLoading(false);
+      return;
+    }
+
+    const updatedPost = {
+      titulo,
+      conteudo,
+      autor,
+    };
+
+    try {
+      const data = await updatePost(post.id, updatedPost);
+      if (data.success === false) {
+        setError(data.error);
+      } else {
+        navigate('/');
+      }
+    }catch(error) {
+      console.error('Erro ao atualizar post:', error);
+      setError('Erro ao atualizar o post. Tente novamente mais tarde.');
+    }finally{
+      setLoading(false);
+    }
+  };
 
   if (!post) {
     return <Container><h2>Post não encontrado!</h2></Container>;
   }
 
-  const handleSave = () => {
-    onModificaPost(post);
-    navigate('/'); // Voltar para a página principal após salvar
-  };
-
   return (
     <Container>
-      <Title>Editar postagem</Title>
+      <Title>Modificar postagem</Title>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <Label>Título:</Label>
       <Input type="text" value={post.titulo} readOnly />
@@ -121,7 +168,9 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts, onModificaPost }) =>
       />
 
       <ButtonContainer>
-        <SaveButton onClick={handleSave}>Editar</SaveButton>
+        <SaveButton onClick={handleSave} disabled={loading}>
+          {loading ? 'Salvando...' : 'Editar'}
+        </SaveButton>
         <CancelButton onClick={() => navigate('/')}>Cancelar</CancelButton>
       </ButtonContainer>
     </Container>
