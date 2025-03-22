@@ -64,7 +64,31 @@ const Button = styled.button`
   }
 `;
 
+<<<<<<< HEAD
 const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
+=======
+const ButtonAccess = styled.button`
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px 50px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 17px;
+  border: none;
+
+  &:hover {
+    background-color: #439846;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+`;
+
+const PostList: React.FC<PostListProps> = ({ posts }) => {
+>>>>>>> c733ceec4e039df1baca387570a82524e62030ec
   const { isLoggedIn } = useAuth();
 
   return (
@@ -76,19 +100,33 @@ const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
             <PostAuthor>criado por: {post.autor}</PostAuthor>
             <PostContent>{post.conteudo}</PostContent>
           </PostInfo>
-          <Link to={`/post/${post._id}`}>
-            <Button>Acessar Post</Button>
-          </Link>
-          {isLoggedIn && (
-            <Link to={`/modificar/${post._id}`}>
-              <Button>Editar Post</Button>
+
+          <ButtonContainer>
+            <Link to={`/post/${post._id}`}>
+              <ButtonAccess>Acessar Post</ButtonAccess>
             </Link>
+<<<<<<< HEAD
           )}
           {isLoggedIn && (
             <Button onClick={() => {
               onDeletePost(post._id); 
             }}>Deletar Post</Button>
           )};  
+=======
+            {isLoggedIn && (
+              <Link to={`/modificar/${post._id}`}>
+                <Button>Editar Post</Button>
+              </Link>
+            )}
+            {isLoggedIn && (
+              <Button onClick={() => {
+                deletePost(post._id);
+                window.location.reload();
+              }}>Deletar Post</Button>
+            )}
+          </ButtonContainer>
+
+>>>>>>> c733ceec4e039df1baca387570a82524e62030ec
         </ListItem>
       ))}
     </List>

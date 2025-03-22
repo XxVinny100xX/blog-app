@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 const HeaderContainer = styled.header`
@@ -80,9 +79,25 @@ const ButtonHeader = styled.button`
   }
 `;
 
+const BackButton = styled(Link)`
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 20px;
+
+  &:hover {
+    background-color: #439846;
+  }
+`;
+
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
+  const location = useLocation();
+
+  const isPostDetailPage = location.pathname.startsWith('/post/');
   return (
     <>
       <HeaderContainer>
@@ -107,8 +122,10 @@ const Header: React.FC = () => {
               <StyledLink to="/criar">Criar Postagens</StyledLink>
               </ButtonHeader>
             </>
-          )}  
+          )}
+        {isPostDetailPage && <BackButton to="/">Voltar à página inicial</BackButton>}
         </Nav>
+
         <SearchInput type="text" placeholder="Buscar..." />
       </SearchBarContainer>
     </>
