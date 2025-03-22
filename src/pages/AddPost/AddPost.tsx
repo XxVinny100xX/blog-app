@@ -100,6 +100,7 @@ const AddPost: React.FC<AddPostProps> = ({ onPostCreate }) => {
     } catch(error) {
       console.error('Erro ao criar post:', error);
       setError('Erro ao criar post. Tente novamente mais tarde.');
+      setTimeout(() => {setError(null);}, 5000);
     } finally {
       setLoading(false);
     }

@@ -63,27 +63,28 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { isLoggedIn } = useAuth();
   
-  const handleLoginClick = () => {
+  const handleLoginClick = async () => {
     setLoading(true);
     setError(null);
 
     if(!email || !password) {
       setError('Preencha todos os campos!');
+      setTimeout(() => setError(null), 5000);
       setLoading(false);
       return;
     }
-
-    login(email, password);
-
-    if(!isLoggedIn) {
+    try{
+      await login(email, password);
+      console.log("TeacherLogin: Navigating to '/'..."); // Debug log before 
+      navigate('/');
+      console.log("TeacherLogin: navigate('/') function executed!");
+    } catch(error) {
       setError('Email ou senha incorretos!');
+        setTimeout(() => setError(null), 5000);
+    }finally{
       setLoading(false);
-      return;
-    }else{
-      navigate('/'); // Redireciona para a página inicial
-    };
+    }
  };
   
   return (

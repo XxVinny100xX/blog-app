@@ -107,6 +107,11 @@ const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
               onDeletePost(post._id); 
             }}>Deletar Post</Button>
           )};
+          {isLoggedIn && (
+          <Link to={`/modificar/${post._id}`}>
+            <ButtonAccess>Alterar Post</ButtonAccess>
+          </Link>
+          )};
           </ButtonContainer>  
         </ListItem>
       ))}

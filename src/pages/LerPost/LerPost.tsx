@@ -45,7 +45,7 @@ const PostDetail: React.FC = () => {
         }
       } catch (err) {
         setError("Erro ao carregar os detalhes do post.");
-        console.error("Erro ao buscar detalhes do post:", err);
+        setTimeout(() => {setError(null);}, 5000);
       } finally {
         setLoading(false);
       }

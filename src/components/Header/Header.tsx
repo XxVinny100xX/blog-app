@@ -3,6 +3,11 @@ import { Link, useLocation, useNavigate  } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 
+interface HeaderProps {
+  searchTerm: string;
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
@@ -92,7 +97,7 @@ const BackButton = styled(Link)`
   }
 `;
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange}) => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
   const location = useLocation();
@@ -125,8 +130,11 @@ const Header: React.FC = () => {
           )}
         {isPostDetailPage && <BackButton to="/">Voltar à página inicial</BackButton>}
         </Nav>
-
-        <SearchInput type="text" placeholder="Buscar..." />
+        <SearchInput 
+          type="text" 
+          placeholder="Buscar..." 
+          value={searchTerm}
+          onChange={onSearchChange}/>
       </SearchBarContainer>
     </>
   );
