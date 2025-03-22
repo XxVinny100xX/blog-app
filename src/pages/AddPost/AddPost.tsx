@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { addPost } from '../../api';
+import { useNavigate } from 'react-router-dom';
 
-interface AddPostProps {
-  onAddPost: (titulo:string , conteudo:string, autor:string) => void;
-}
+interface AddPostProps {}
 
 const Container = styled.div`
   width: 60%;
@@ -69,27 +69,48 @@ const Button = styled.button<{ color: string }>`
   }
 `;
 
-const AddPost: React.FC<AddPostProps> = ({ onAddPost }) => {
+const AddPost: React.FC<AddPostProps> = ({}) => {
 
   const [titulo, setTitulo] = useState(""); // Estado para o título
   const [conteudo, setConteudo] = useState(""); // Estado para o conteúdo
   const [autor, setAutor] = useState(""); // Estado para o autor
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     if (!titulo || !conteudo || !autor) {
-      alert("Preencha todos os campos!");
+      setError("Preencha todos os campos!");
+      setLoading(false);
       return;
     }
 
-    e.preventDefault();
-    onAddPost(titulo,conteudo,autor);
-    setTitulo(''); // Limpa o campo após adicionar
-    setConteudo(''); // Limpa o campo após adicionar
-    setAutor(''); // Limpa o campo após adicionar
+    const newPost = {titulo, conteudo, autor};
+
+    try{  
+      const data = await addPost(newPost);
+      if (data.success === false) {
+        setError(data.error);
+      } else {
+        navigate('/');
+      }
+    } catch(error) {
+      console.error('Erro ao criar post:', error);
+      setError('Erro ao criar post. Tente novamente mais tarde.');
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <Container>
       <h2 style={{ color: '#006d75', fontSize: 40 }}>Criar nova postagem</h2>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <Form onSubmit={handleSubmit}>
         <Label>Título</Label>
@@ -119,8 +140,8 @@ const AddPost: React.FC<AddPostProps> = ({ onAddPost }) => {
         <br />
 
         <ButtonsContainer>
-        <Button type="submit" color="#2E8B57">
-            Publicar
+        <Button type="submit" color="#2E8B57" disabled={loading}>
+            {loading ? 'Publicando...' : 'Publicar'}
           </Button>
           <Button type="button" color="#D32F2F" onClick={() => { setTitulo(''); setConteudo(''); setAutor(''); }}>
             Cancelar
