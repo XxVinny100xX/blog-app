@@ -16,13 +16,12 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   background-color: #ddd;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 8px;
+  padding: 35px;
+  margin: 20px 0;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const PostInfo = styled.div`
@@ -34,32 +33,32 @@ const PostInfo = styled.div`
 const PostTitle = styled.h2`
   margin: 0;
   font-size: 30px;
-  color: #007b85;
+  color: #00838F;
 `;
 
 const PostAuthor = styled.p`
   margin: 0;
-  font-size: 1px;
-  color: #007b85;
+  font-size: 23px;
+  color: #00838F;
 `;
 
 const PostContent = styled.p`
   margin: 5px 0;
   font-size: 20px;
-  color: #333;
+  color: #000;
 `;
 
 const Button = styled.button`
   background-color: #4CAF50;
   color: white;
-  padding: 10px 15px;
+  padding: 20px 50px;
   text-decoration: none;
   border-radius: 5px;
-  font-weight: bold;
-  transition: background 0.3s;
+  font-size: 17px;
+  border: none;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #439846;
   }
 `;
 
@@ -68,7 +67,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
     <List>
       {posts.map((post) => (
         <ListItem key={post._id}>
-          <PostInfo>  
+          <PostInfo>
             <PostTitle>{post.titulo}</PostTitle>
             <PostAuthor>criado por: {post.autor}</PostAuthor>
             <PostContent>{post.conteudo}</PostContent>

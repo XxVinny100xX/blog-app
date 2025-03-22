@@ -6,48 +6,44 @@ import { useNavigate } from 'react-router-dom';
 interface AddPostProps {}
 
 const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-  padding: 20px;
+  width: 100%;
 `;
 
-// Estilização do formulário
+const Title = styled.h2`
+  color: #00838F;
+  font-size: 36px;
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 15px;
 `;
 
-// Estilização dos rótulos
 const Label = styled.label`
-  font-size: 30px;
-  font-weight: bold;
-  color: #006d75;
-  margin-bottom: 5px;
+  font-size: 32px;
+  color: #00838F;
 `;
 
-// Inputs e Textarea com aparência semelhante à imagem
 const Input = styled.input`
-  width: 100%;
   padding: 12px;
   font-size: 20px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
-  background-color: #ddd; /* Cor cinza como na imagem */
+  background-color: #D9D9D9;
+  color: #000;
 `;
 
 const Textarea = styled.textarea`
-  width: 100%;
   height: 300px;
   padding: 12px;
   font-size: 20px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
-  background-color: #ddd; /* Cor cinza como na imagem */
+  background-color: #D9D9D9;
   resize: none;
+  color: #000;
 `;
 
-// Botões
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -71,9 +67,9 @@ const Button = styled.button<{ color: string }>`
 
 const AddPost: React.FC<AddPostProps> = ({}) => {
 
-  const [titulo, setTitulo] = useState(""); // Estado para o título
-  const [conteudo, setConteudo] = useState(""); // Estado para o conteúdo
-  const [autor, setAutor] = useState(""); // Estado para o autor
+  const [titulo, setTitulo] = useState("");
+  const [conteudo, setConteudo] = useState("");
+  const [autor, setAutor] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -91,7 +87,7 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
 
     const newPost = {titulo, conteudo, autor};
 
-    try{  
+    try{
       const data = await addPost(newPost);
       if (data.success === false) {
         setError(data.error);
@@ -108,12 +104,12 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
 
   return (
     <Container>
-      <h2 style={{ color: '#006d75', fontSize: 40 }}>Criar nova postagem</h2>
+      <Title>Criar nova postagem</Title>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <Form onSubmit={handleSubmit}>
-        <Label>Título</Label>
+        <Label>Título:</Label>
         <Input
           type="text"
           placeholder= "Digite o título"
