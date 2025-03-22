@@ -102,9 +102,11 @@ const Header: React.FC = () => {
             <StyledLink to="/">Home</StyledLink>
           </ButtonHeader>
           {isLoggedIn && (
-          <ButtonHeader>
-            <StyledLink to="/criar">Criar Postagens</StyledLink>
-          </ButtonHeader>
+            <>
+              <ButtonHeader>
+              <StyledLink to="/criar">Criar Postagens</StyledLink>
+              </ButtonHeader>
+            </>
           )}  
         </Nav>
         <SearchInput type="text" placeholder="Buscar..." />

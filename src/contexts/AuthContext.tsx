@@ -2,7 +2,7 @@ import React, { createContext, useState, useContext, ReactNode } from 'react';
 
 interface AuthContextValue {
   isLoggedIn: boolean;
-  login: () => void;
+  login: (email: string, password: string) => void;
   logout: () => void;
 }
 
@@ -15,15 +15,13 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false); 
 
-  const login = (): void => {
-    // Lógica para salvar o estado de login (ex: localStorage, cookies) - a ser implementada
-   
+  const login = (email: string, password:string): void => {
+    if(email === 'testesfiap3fsdt@gmail.com' && password === '1234') {
     setIsLoggedIn(true);
+    }
   };
 
   const logout = (): void => {
-    // Lógica para limpar o estado de login - a ser implementada
-   
     setIsLoggedIn(false);
   };
 

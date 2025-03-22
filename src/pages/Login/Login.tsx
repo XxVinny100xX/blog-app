@@ -1,6 +1,8 @@
 // src/pages/TeacherLogin.jsx
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuth } from '../../contexts/AuthContext';
+import { useState } from 'react';
 
 const LoginPageContainer = styled.div`
   background-color: #F5DEB3; // Cor de fundo bege claro
@@ -54,17 +56,48 @@ const BackLink = styled(Link)`
   text-decoration: none; /* Remove sublinhado padrão do link */
 `;
 
-
 const Login = () => {
+  const [email, setEmail]= useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  const handleLoginClick = () => {
+    setLoading(true);
+    setError(null);
+
+    if(!email || !password) {
+      setError('Preencha todos os campos!');
+      setLoading(false);
+      return;
+    }
+
+    login(email, password);
+
+    const { isLoggedIn } = useAuth();
+
+    if(!isLoggedIn) {
+      setError('Email ou senha incorretos!');
+      setLoading(false);
+      return;
+    }else{
+      navigate('/'); // Redireciona para a página inicial
+    };
+ };
+  
   return (
     <LoginPageContainer>
       <LoginBox>
         <Title>Colégio Lumiar</Title>
         <SubTitle>Guia do docente</SubTitle>
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Senha" />
-        <Button>Entrar</Button>
+        <Input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+        <Input type="password" placeholder="Senha" value={password} onChange={e => setPassword(e.target.value)} />
+        <Button onClick={handleLoginClick}>Entrar</Button>
         <BackLink to="/">Voltar para página inicial</BackLink>
+        {loading && <div>Carregando...</div>}
+        {error && <div className="mensagem">{error}</div>}
       </LoginBox>
     </LoginPageContainer>
   );
