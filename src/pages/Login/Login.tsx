@@ -1,5 +1,5 @@
 // src/pages/TeacherLogin.jsx
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
 import { useState } from 'react';
@@ -63,6 +63,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { isLoggedIn } = useAuth();
   
   const handleLoginClick = () => {
     setLoading(true);
@@ -75,8 +76,6 @@ const Login = () => {
     }
 
     login(email, password);
-
-    const { isLoggedIn } = useAuth();
 
     if(!isLoggedIn) {
       setError('Email ou senha incorretos!');

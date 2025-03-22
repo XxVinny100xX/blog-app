@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { Post } from '../../types';
 import { updatePost } from '../../api';
@@ -84,9 +84,7 @@ const CancelButton = styled.button`
 `;
 
 const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const postId = searchParams.get("id");
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [titulo, setTitulo] = useState('');
@@ -96,8 +94,8 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (postId) {
-      const foundPost = posts.find(p => String(p._id) === postId);
+    if (id) {
+      const foundPost = posts.find(p => String(p._id) === id);
       if (foundPost) {
         setPost(foundPost);
         setTitulo(foundPost.titulo);
@@ -105,7 +103,7 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
         setAutor(foundPost.autor);
       }
     }
-  }, [posts, postId]);
+  }, [posts, id]);
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,7 +162,7 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
       <Label>Insira aqui o conteúdo da postagem:</Label>
       <TextArea
         value={post.conteudo}
-        onChange={(e) => setPost({ ...post, conteudo: e.target.value })}
+        onChange={e => setPost({ ...post, conteudo: e.target.value })}
       />
 
       <ButtonContainer>
