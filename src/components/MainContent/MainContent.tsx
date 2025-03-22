@@ -8,6 +8,7 @@ const Main = styled.main`
     justify-content: center;
     padding: 20px;
     align-items: center;
+    background-color: #fff;
 `;
 
 
