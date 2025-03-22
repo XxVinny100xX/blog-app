@@ -1,11 +1,12 @@
 import  { useState,useReducer, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import api from './api';
+import { getPosts } from './api';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import MainContent from './components/MainContent/MainContent';
 import AddPost from './pages/AddPost/AddPost';
 import ModificaPost from './pages/ModificaPost/ModificaPost';
+import Login from './pages/Login/Login';
 import PostDetail from './pages/LerPost/LerPost';
 import PostList from './pages/PostList/PostList';
 import taskReducer from './reducers/taskReducer';
@@ -17,68 +18,39 @@ const initialState = { posts: [] as Post[] };
 function App() {
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const [mensagem, setMensagem] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true); // Estado de carregamento
+  const [error, setError] = useState<string | null>(null); // Estado de erro
 
   useEffect(() => {
-    api.get('/posts')
-      .then(response => {
-        dispatch({ type: 'SET_POST', payload: response.data });
-      })
-      .catch(error => {
-        console.error('Erro ao obter Posts:', error);
-      });
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError(null); // Limpa erros anteriores
+      try {
+        const data = await getPosts();
+        if (data.length > 0) {
+          dispatch({ type: 'SET_POST', payload: data });
+        } else {
+          setError(data.error);
+        }
+      } catch(error) {
+        console.error('Erro ao buscar posts:', error);
+        setError('Erro ao buscar posts. Tente novamente mais tarde.');
+        setMensagem('Erro ao buscar posts. Tente novamente mais tarde.');
+      }finally{
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
   }, []);
 
-  const addpost= (titulo:string, conteudo:string, autor:string) => {
-    api.post('/posts', { titulo:titulo , conteudo:conteudo, autor:autor })
-      .then(response => {
-        dispatch({ type: 'ADD_POST', payload: response.data });
-        //Exibir mensagem de Sucesso
-        setMensagem('Post Criado com Sucesso');
-        setTimeout(() => { setMensagem('');}, 3000);
-      })
-      .catch(error => {
-        console.error('Erro ao Criar Post:', error);
-        setMensagem('Erro ao Criar Post');
-        setTimeout(() => { setMensagem('');}, 3000);
-      });
-  };
+  if (loading) {
+    return <div>Carregando posts...</div>; // Mensagem de carregamento
+  }
 
-  const removePost = (postId: number) => {
-    api.delete(`/posts/${postId}`)
-      .then(() => {
-        dispatch({ type: 'REMOVE_POST', payload: postId });
-        setMensagem('Post  com Sucesso');
-        setTimeout(() => { setMensagem('');}, 3000);
-      })
-      .catch(error => {
-        console.error('Erro ao Remover Post:', error);
-        setMensagem('Erro ao Remover Post');
-        setTimeout(() => { setMensagem('');}, 3000);
-      });
-  };
-
-  const atualizaPost = (atPost: Post) => {
-    const post = state.posts.find( (post:Post) => post.id === atPost.id);
-    if (post) {
-      const updatedPost: Post = {
-        ...post,
-        titulo: atPost.titulo,
-        conteudo: atPost.conteudo,
-        autor: atPost.autor
-      };
-      api.put(`/posts/${atPost.id}`, updatedPost)
-        .then(() => {
-          dispatch({ type: 'TOGGLE_POST', payload: updatedPost });
-          setMensagem('Post Atualizado com Sucesso');
-          setTimeout(() => { setMensagem('');}, 3000);
-        })
-        .catch(error => {
-          console.error('Erro ao Atualizar Post:', error);
-          setMensagem('Erro ao Atualizar Post');
-          setTimeout(() => { setMensagem('');}, 3000);
-        });
-    }
-  };
+  if (error) {
+    return <div style={{ color: 'red' }}>Erro: {error}</div>; // Mensagem de erro
+  }
 
   return (
     <Router>
@@ -92,9 +64,11 @@ function App() {
                 <PostList posts={state.posts} />
               </>
             } />
-            <Route path="/criar" element={<AddPost onAddPost={addpost} />} />
-            <Route path="/post/:id" element={<PostDetail posts={state.posts} />} />
-            <Route path="/modificar" element={<ModificaPost post={state.posts} onModificaPost={atualizaPost} />} />
+            <Route path="/criar"      element={<AddPost />} />
+            <Route path="/post/:id"   element={<PostDetail />} />
+            <Route path="/modificar"  element={<ModificaPost posts={state.posts} />} />
+            <Route path="/login-docente" element={<Login />} />
+
           </Routes>
         </MainContent>
         <Footer />

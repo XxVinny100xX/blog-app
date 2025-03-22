@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Post } from '../../types';
+import { getPost } from '../../api';
 
 const PostContainer = styled.div`
   width: 80%;
@@ -43,29 +44,54 @@ const BackButton = styled(Link)`
   }
 `;
 
-const PostDetail: React.FC<{ posts: Post[] }> = ({ posts }) => {
+const PostDetail: React.FC = () => { 
   const { id } = useParams<{ id: string }>();
   const [post, setPost] = useState<Post | null>(null);
+  const [loading, setLoading] = useState(true); // Para indicar que está carregando
+  const [error, setError] = useState<string | null>(null); // Para tratar erros
 
   useEffect(() => {
-    if (posts.length > 0) {
-      const foundPost = posts.find(p => p.id === Number(id));
-      setPost(foundPost || null);
-    }
-  }, [posts, id]);
+    const fetchPostDetails = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getPost(String(id));
+        if (data.success === false) {
+          setError(data.error);
+        } else {
+          setPost(data);
+        }
+      } catch (err) {
+        setError("Erro ao carregar os detalhes do post.");
+        console.error("Erro ao buscar detalhes do post:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPostDetails();
+  }, [id]);
+
+  if (loading) {
+    return <PostContainer>Carregando detalhes do post...</PostContainer>; // Tela de carregamento
+  }
+
+  if (error) {
+    return <PostContainer><h2>{error}</h2></PostContainer>; // Exibe mensagem de erro
+  }
 
   if (!post) {
-    return <PostContainer><h2>Post não encontrado!</h2></PostContainer>;
+    return <PostContainer><h2>Post não encontrado!</h2></PostContainer>; // Mensagem se post for null (mesmo após a busca)
   }
 
   return (
     <div>
-      <BackButton to="/">⬅ Voltar à página inicial</BackButton>
-      <PostContainer>
-        <PostTitle>{post.titulo}</PostTitle>
-        <PostAuthor>criado por: {post.autor}</PostAuthor>
-        <PostContent>{post.conteudo}</PostContent>
-      </PostContainer>
+        <BackButton to="/">⬅ Voltar à página inicial</BackButton>
+        <PostContainer>
+            <PostTitle>{post.titulo}</PostTitle>
+            <PostAuthor>criado por: {post.autor}</PostAuthor>
+            <PostContent>{post.conteudo}</PostContent>
+        </PostContainer>
     </div>
   );
 };

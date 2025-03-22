@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -29,6 +30,7 @@ const Button = styled.button`
   border: none;
   border-radius: 8px;
   font-size: 20px;
+
   &:hover {
     background-color: #439846;
   }
@@ -43,7 +45,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   color: #ffff;
   font-size: 25px;
-  font-weight: bold;
 `;
 
 const SearchBarContainer = styled.div`
@@ -73,18 +74,19 @@ const ButtonHeader = styled.button`
   border: none;
   border-radius: 5px;
 
-  &:hover{
+  &:hover {
   background-color:#439846;
   }
 `;
 
 const Header: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <>
       <HeaderContainer>
         <Title>Colégio Lumiar</Title>
         <ButtonGroup>
-          <Button>Sou Docente</Button>
+          <Button onClick={() => navigate("/login-docente")}>Sou Docente</Button>
         </ButtonGroup>
       </HeaderContainer>
 

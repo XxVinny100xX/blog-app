@@ -1,4 +1,4 @@
-# 📌 blog-front
+# 📌 blog-app
 Este repositório foi criado com o intúito da criação de um blog em que professores possam postar, editar e remover atividades, avisos e outros para seus alunos e para que os alunos possam ter uma comunicação mais fluida com os temas que acontecem em sua sala de aula e escola.
 
 # 📌 Índice
@@ -24,7 +24,7 @@ Passo a passo para rodar o projeto front-end localmente:
 
 - Clone os repositórios:
 ```bash
-git clone https://github.com/souleandromachado/blog-front
+git clone https://github.com/XxVinny100xX/blog-app
 e
 git clone https://github.com/souleandromachado/blog-api
 ```
