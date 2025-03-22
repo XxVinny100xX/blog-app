@@ -2,79 +2,107 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-// Container principal do Header
 const HeaderContainer = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #f5d7b3; /* Cor bege claro */
+  background-color: #F5E1C5;
   padding: 15px 30px;
 `;
 
-// Estilização do título "Colégio Lumiar"
 const Title = styled.h1`
-  font-size: 30px;
-  color: #004d40; /* Verde escuro */
+  font-size: 27px;
+  color: #00838F;
   margin: 0;
 `;
 
-// Container de navegação
-const Nav = styled.nav`
-  display: flex;
-  gap: 15px;
-`;
-
-// Botões do canto direito
 const ButtonGroup = styled.div`
   display: flex;
   gap: 10px;
 `;
 
 const Button = styled.button`
-  background-color: #2E8B57; /* Verde */
+  background-color: #4CAF50;
   color: white;
-  padding: 16px 32px;
+  margin-right: 50px;
+  padding: 16px 35px;
   border: none;
-  border-radius: 5px;
-  font-size: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
+  border-radius: 8px;
+  font-size: 20px;
   &:hover {
-    background-color: #1e6b40; /* Verde mais escuro */
+    background-color: #439846;
   }
 `;
 
-// Links de navegação
+const Nav = styled.nav`
+  display: flex;
+  gap: 20px;
+`;
+
 const StyledLink = styled(Link)`
   text-decoration: none;
-  color: #006d75;
-  font-size: 30px;
+  color: #ffff;
+  font-size: 25px;
   font-weight: bold;
+`;
 
-  &:hover {
-    text-decoration: underline;
+const SearchBarContainer = styled.div`
+  background-color: #00838F;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-itens: center;
+  padding-left: 30px;
+  padding-right: 5px;
+`;
+
+const SearchInput = styled.input`
+  width: 15%;
+  padding: 15px;
+  margin-right: 75px;
+  font-size: 16px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background-color: #ffff;
+  color: #000;
+`;
+
+const ButtonHeader = styled.button`
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 5px;
+
+  &:hover{
+  background-color:#439846;
   }
 `;
 
 const Header: React.FC = () => {
   return (
-    <HeaderContainer>
-      {/* Título do blog */}
-      <Title>Blog do Colégio Lumiar</Title>
+    <>
+      <HeaderContainer>
+        <Title>Colégio Lumiar</Title>
+        <ButtonGroup>
+          <Button>Sou Docente</Button>
+        </ButtonGroup>
+      </HeaderContainer>
 
-      {/* Navegação no meio */}
-      <Nav>
-        <StyledLink to="/">Home</StyledLink>
-        <StyledLink to="/criar">Criar Postagens</StyledLink>
-        <StyledLink to="/modificar">Modificar Postagens</StyledLink>
-      </Nav>
-
-      {/* Botões à direita */}
-      <ButtonGroup>
-        <Button>Sou Docente</Button>
-      </ButtonGroup>
-    </HeaderContainer>
+      <SearchBarContainer>
+        <Nav>
+          <ButtonHeader>
+            <StyledLink to="/">Home</StyledLink>
+          </ButtonHeader>
+          <ButtonHeader>
+            <StyledLink to="/criar">Criar Postagens</StyledLink>
+          </ButtonHeader>
+          <ButtonHeader>
+            <StyledLink to="/modificar">Modificar Postagens</StyledLink>
+          </ButtonHeader>
+        </Nav>
+        <SearchInput type="text" placeholder="Buscar..." />
+      </SearchBarContainer>
+    </>
   );
 };
 

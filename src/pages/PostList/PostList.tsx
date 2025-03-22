@@ -11,7 +11,7 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   width: 80%;
-  margin: 0 auto; /* Centraliza os posts na tela */
+  margin: 0 auto;
 `;
 
 const ListItem = styled.li`
@@ -22,7 +22,6 @@ const ListItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const PostInfo = styled.div`
