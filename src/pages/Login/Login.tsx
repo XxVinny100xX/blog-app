@@ -1,17 +1,17 @@
-// src/pages/TeacherLogin.jsx
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const LoginPageContainer = styled.div`
-  background-color: #F5DEB3; // Cor de fundo bege claro
+  background-color: #F5DEB3;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Garante que ocupa a altura total da tela */
+  min-height: 100vh;
 `;
 
 const LoginBox = styled.div`
-  background-color: #008080; // Cor de fundo verde água
+  background-color: #008080;
   padding: 30px;
   border-radius: 5px;
   text-align: center;
@@ -32,12 +32,12 @@ const Input = styled.input`
   margin-bottom: 15px;
   border: none;
   border-radius: 3px;
-  width: 100%; /* Largura total dentro do container */
-  box-sizing: border-box; /* Garante que padding não aumenta a largura total */
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const Button = styled.button`
-  background-color: #4CAF50; // Cor de fundo verde do botão
+  background-color: #4CAF50;
   color: white;
   padding: 10px 15px;
   border: none;
@@ -47,23 +47,46 @@ const Button = styled.button`
   margin-top: 10px;
 `;
 
-const BackLink = styled(Link)`
-  display: block; /* Para o link ocupar a largura e margin funcionar */
-  margin-top: 20px;
-  color: #008080; // Cor do texto do link igual ao fundo do container
-  text-decoration: none; /* Remove sublinhado padrão do link */
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
 `;
 
+const BackLink = styled(Link)`
+  display: block;
+  margin-top: 20px;
+  color: #008080;
+  text-decoration: none;
+`;
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = () => {
+    if (!email || !password) {
+      setError('Por favor, preencha todos os campos.');
+      return;
+    }
+    
+    if (email === 'testefiap3fsdt@gmail.com' && password === '1234') {
+      alert('Login bem-sucedido!');
+    } else {
+      setError('Email ou senha incorretos.');
+    }
+  };
+
   return (
     <LoginPageContainer>
       <LoginBox>
         <Title>Colégio Lumiar</Title>
         <SubTitle>Guia do docente</SubTitle>
-        <Input type="email" placeholder="Email" />
-        <Input type="password" placeholder="Senha" />
-        <Button>Entrar</Button>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <Input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button onClick={handleLogin}>Entrar</Button>
         <BackLink to="/">Voltar para página inicial</BackLink>
       </LoginBox>
     </LoginPageContainer>
