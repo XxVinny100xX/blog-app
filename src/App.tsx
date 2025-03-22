@@ -27,7 +27,7 @@ function App() {
       setError(null); // Limpa erros anteriores
       try {
         const data = await getPosts();
-        if (data.success) {
+        if (data.length > 0) {
           dispatch({ type: 'SET_POST', payload: data });
         } else {
           setError(data.error);

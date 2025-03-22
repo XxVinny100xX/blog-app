@@ -58,9 +58,8 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const navigate = useNavigate();
-
 const Header: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
       {/* Título do blog */}
