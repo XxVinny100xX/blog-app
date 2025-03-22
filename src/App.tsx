@@ -64,11 +64,10 @@ function App() {
                 <PostList posts={state.posts} />
               </>
             } />
-            <Route path="/criar"      element={<AddPost />} />
-            <Route path="/post/:id"   element={<PostDetail />} />
-            <Route path="/modificar"  element={<ModificaPost posts={state.posts} />} />
-            <Route path="/login-docente" element={<Login />} />
-
+            <Route path="/criar"          element={<AddPost />} />
+            <Route path="/post/:id"       element={<PostDetail />} />
+            <Route path="/modificar/:id"  element={<ModificaPost posts={state.posts} />} />
+            <Route path="/login-docente"  element={<Login />} />
           </Routes>
         </MainContent>
         <Footer />

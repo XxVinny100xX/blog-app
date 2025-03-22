@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -81,12 +82,17 @@ const ButtonHeader = styled.button`
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
+  const { isLoggedIn, logout } = useAuth();
   return (
     <>
       <HeaderContainer>
         <Title>Colégio Lumiar</Title>
         <ButtonGroup>
-          <Button onClick={() => navigate("/login-docente")}>Sou Docente</Button>
+          {isLoggedIn ? (
+            <Button onClick={logout}>Logout</Button>
+          ) : (
+            <Button onClick={() => navigate("/login-docente")}>Sou Docente</Button>
+          )}
         </ButtonGroup>
       </HeaderContainer>
 
@@ -95,12 +101,11 @@ const Header: React.FC = () => {
           <ButtonHeader>
             <StyledLink to="/">Home</StyledLink>
           </ButtonHeader>
+          {isLoggedIn && (
           <ButtonHeader>
             <StyledLink to="/criar">Criar Postagens</StyledLink>
           </ButtonHeader>
-          <ButtonHeader>
-            <StyledLink to="/modificar">Modificar Postagens</StyledLink>
-          </ButtonHeader>
+          )}  
         </Nav>
         <SearchInput type="text" placeholder="Buscar..." />
       </SearchBarContainer>

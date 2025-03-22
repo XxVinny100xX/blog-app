@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Post } from '../../types';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { deletePost } from '../../api';
 
 interface PostListProps {
   posts: Post[];
@@ -63,6 +65,7 @@ const Button = styled.button`
 `;
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {
+  const { isLoggedIn } = useAuth();
   return (
     <List>
       {posts.map((post) => (
@@ -75,6 +78,18 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
           <Link to={`/post/${post._id}`}>
             <Button>Acessar Post</Button>
           </Link>
+          {isLoggedIn && (
+            <Link to={`/modificar/${post._id}`}>
+              <Button>Editar Post</Button>
+            </Link>
+          )}
+          {isLoggedIn && (
+            <Button onClick={() => {
+              deletePost(post._id);
+              window.location.reload();
+            }}>Deletar Post</Button>
+          )};  
+
         </ListItem>
       ))}
     </List>
