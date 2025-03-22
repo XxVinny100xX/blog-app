@@ -44,9 +44,9 @@ const Button = styled.button`
 
 const ModificaPost: React.FC<AddPostProps> = ({ post, onModificaPost }) => {
 
-  const [titulo, setTitulo] = useState(""); // Estado para o título
-  const [conteudo, setConteudo] = useState(""); // Estado para o conteúdo
-  const [autor, setAutor] = useState(""); // Estado para o autor
+  const [titulo, setTitulo] = useState("");
+  const [conteudo, setConteudo] = useState("");
+  const [autor, setAutor] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     if (!titulo || !conteudo || !autor) {
@@ -59,9 +59,9 @@ const ModificaPost: React.FC<AddPostProps> = ({ post, onModificaPost }) => {
 
     e.preventDefault();
     onModificaPost(post);
-    setTitulo(''); // Limpa o campo após adicionar
-    setConteudo(''); // Limpa o campo após adicionar
-    setAutor(''); // Limpa o campo após adicionar
+    setTitulo('');
+    setConteudo('');
+    setAutor('');
   };
   return (
     <Form onSubmit={handleSubmit}>
