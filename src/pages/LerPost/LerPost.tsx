@@ -56,7 +56,7 @@ const PostDetail: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getPost(Number(id));
+        const data = await getPost(String(id));
         if (data.success === false) {
           setError(data.error);
         } else {

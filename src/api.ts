@@ -20,7 +20,7 @@ export const getPosts = async () => {
   
   // ... (Repita o padrão para outras funções: getPost, addPost, deletePost, updatePost)
   
- export const getPost = async (id:number) => {
+ export const getPost = async (id:string) => {
       try {
         const response = await api.get(`/posts/${id}`);
         return response.data;
@@ -46,7 +46,7 @@ export const getPosts = async () => {
     }
   };
   
-  export const deletePost = async (id:number) => {
+  export const deletePost = async (id:string) => {
     try {
       await api.delete(`/posts/${id}`);
       return { success: true }; // Retorna sucesso em caso de deleção bem-sucedida
@@ -59,7 +59,7 @@ export const getPosts = async () => {
     }
   };
   
-  export const updatePost = async (id:number, updatedPost: any) => {
+  export const updatePost = async (id:string, updatedPost: any) => {
     try {
       const response = await api.put(`/posts/${id}`, updatedPost);
       return response.data;

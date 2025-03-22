@@ -67,13 +67,13 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   return (
     <List>
       {posts.map((post) => (
-        <ListItem key={post.id}>
-          <PostInfo>
+        <ListItem key={post._id}>
+          <PostInfo>  
             <PostTitle>{post.titulo}</PostTitle>
             <PostAuthor>criado por: {post.autor}</PostAuthor>
             <PostContent>{post.conteudo}</PostContent>
           </PostInfo>
-          <Link to={'/post/' + String(post.id)}>
+          <Link to={`/post/${post._id}`}>
             <Button>Acessar Post</Button>
           </Link>
         </ListItem>

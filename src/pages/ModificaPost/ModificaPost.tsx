@@ -97,7 +97,7 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
 
   useEffect(() => {
     if (postId) {
-      const foundPost = posts.find(p => String(p.id) === postId);
+      const foundPost = posts.find(p => String(p._id) === postId);
       if (foundPost) {
         setPost(foundPost);
         setTitulo(foundPost.titulo);
@@ -118,7 +118,7 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
       return;
     }
 
-    if (!post || !post.id) {
+    if (!post || !post._id) {
       setError('Post não encontrado!');
       setLoading(false);
       return;
@@ -131,7 +131,7 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
     };
 
     try {
-      const data = await updatePost(post.id, updatedPost);
+      const data = await updatePost(post._id, updatedPost);
       if (data.success === false) {
         setError(data.error);
       } else {
