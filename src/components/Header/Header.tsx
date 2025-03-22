@@ -84,7 +84,7 @@ const Header: React.FC = () => {
   return (
     <>
       <HeaderContainer>
-        <Title>Blog do Colégio Lumiar</Title>
+        <Title>Colégio Lumiar</Title>
         <ButtonGroup>
           <Button onClick={() => navigate("/login-docente")}>Sou Docente</Button>
         </ButtonGroup>
