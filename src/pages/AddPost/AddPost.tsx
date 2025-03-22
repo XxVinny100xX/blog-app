@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { addPost } from '../../api';
 import { useNavigate } from 'react-router-dom';
 
-interface AddPostProps {}
+interface AddPostProps {
+  onPostCreate: () => void;
+}
 
 const Container = styled.div`
   width: 100%;
@@ -65,7 +67,7 @@ const Button = styled.button<{ color: string }>`
   }
 `;
 
-const AddPost: React.FC<AddPostProps> = ({}) => {
+const AddPost: React.FC<AddPostProps> = ({ onPostCreate }) => {
 
   const [titulo, setTitulo] = useState("");
   const [conteudo, setConteudo] = useState("");
@@ -92,6 +94,7 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
       if (data.success === false) {
         setError(data.error);
       } else {
+        onPostCreate();
         navigate('/');
       }
     } catch(error) {

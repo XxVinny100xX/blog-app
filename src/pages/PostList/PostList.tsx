@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Post } from '../../types';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { deletePost } from '../../api';
 
 interface PostListProps {
   posts: Post[];
+  onDeletePost: (id: string) => void;
 }
 
 const List = styled.ul`
@@ -64,8 +64,9 @@ const Button = styled.button`
   }
 `;
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
+const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
   const { isLoggedIn } = useAuth();
+
   return (
     <List>
       {posts.map((post) => (
@@ -85,11 +86,9 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
           )}
           {isLoggedIn && (
             <Button onClick={() => {
-              deletePost(post._id);
-              window.location.reload();
+              onDeletePost(post._id); 
             }}>Deletar Post</Button>
           )};  
-
         </ListItem>
       ))}
     </List>
