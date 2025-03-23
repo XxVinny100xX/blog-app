@@ -57,7 +57,6 @@ const Button = styled.button<{ color: string }>`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   background-color: ${(props) => props.color};
 
   &:hover {
@@ -65,38 +64,42 @@ const Button = styled.button<{ color: string }>`
   }
 `;
 
-const AddPost: React.FC<AddPostProps> = ({}) => {
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 18px;
+`;
 
-  const [titulo, setTitulo] = useState("");
-  const [conteudo, setConteudo] = useState("");
-  const [autor, setAutor] = useState("");
+const AddPost: React.FC<AddPostProps> = () => {
+  const [titulo, setTitulo] = useState('');
+  const [conteudo, setConteudo] = useState('');
+  const [autor, setAutor] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
-    if (!titulo || !conteudo || !autor) {
-      setError("Preencha todos os campos!");
-      setLoading(false);
+    if (!titulo.trim() || !conteudo.trim() || !autor.trim()) {
+      setError("Por favor, preencha todos os campos!");
       return;
     }
 
-    const newPost = {titulo, conteudo, autor};
+    setLoading(true);
 
-    try{
+    const newPost = { titulo, conteudo, autor };
+
+    try {
       const data = await addPost(newPost);
       if (data.success === false) {
         setError(data.error);
       } else {
         navigate('/');
       }
-    } catch(error) {
+    } catch (error) {
       console.error('Erro ao criar post:', error);
-      setError('Erro ao criar post. Tente novamente mais tarde.');
+      setError("Erro ao criar o post. Tente novamente mais tarde.");
     } finally {
       setLoading(false);
     }
@@ -104,15 +107,24 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
 
   return (
     <Container>
-      <Title>Criar nova postagem</Title>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ButtonsContainer>
+        <Button type="submit" color="#2E8B57" onClick={handleSubmit} disabled={loading}>
+          {loading ? 'Publicando...' : 'Publicar'}
+        </Button>
+        <Button type="button" color="#D32F2F" onClick={() => navigate('/')}>
+          Cancelar
+        </Button>
+      </ButtonsContainer>
+
+      <Title>Criar nova postagem</Title>
 
       <Form onSubmit={handleSubmit}>
         <Label>Título:</Label>
         <Input
           type="text"
-          placeholder= "Digite o título"
+          placeholder="Digite o título"
           value={titulo}
           onChange={e => setTitulo(e.target.value)}
         />
@@ -127,22 +139,13 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
         />
         <br />
 
-        <Label>Insira aqui o conteúdo da postagem:</Label>
+        <Label>Conteúdo:</Label>
         <Textarea
           placeholder="Conteúdo do Post"
           value={conteudo}
           onChange={e => setConteudo(e.target.value)}
         />
         <br />
-
-        <ButtonsContainer>
-        <Button type="submit" color="#2E8B57" disabled={loading}>
-            {loading ? 'Publicando...' : 'Publicar'}
-          </Button>
-          <Button type="button" color="#D32F2F" onClick={() => { setTitulo(''); setConteudo(''); setAutor(''); }}>
-            Cancelar
-          </Button>
-        </ButtonsContainer>
       </Form>
     </Container>
   );

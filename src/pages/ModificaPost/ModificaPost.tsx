@@ -14,11 +14,10 @@ const Container = styled.div`
   padding: 20px;
   background-color: #f5f5f5;
   border-radius: 8px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
-  color: #007b85;
+  color: #00838F;
 `;
 
 const Label = styled.label`
@@ -26,20 +25,22 @@ const Label = styled.label`
   font-size: 18px;
   margin-top: 10px;
   display: block;
+  color: #00838F;
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 95%;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 10px;
   background-color: #ddd;
+  color: #000;
 `;
 
 const TextArea = styled.textarea`
-  width: 100%;
+  width: 95%;
   height: 150px;
   padding: 10px;
   font-size: 16px;
@@ -47,6 +48,7 @@ const TextArea = styled.textarea`
   border-radius: 4px;
   resize: none;
   background-color: #ddd;
+  color: #000;
 `;
 
 const ButtonContainer = styled.div`
@@ -154,10 +156,10 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <Label>Título:</Label>
-      <Input type="text" value={post.titulo} readOnly />
+      <Input type="text" value={post.titulo} onChange={e => setPost({ ...post, titulo: e.target.value })}/>
 
       <Label>Autor:</Label>
-      <Input type="text" value={`criado por: ${post.autor}`} readOnly />
+      <Input type="text" value={`${post.autor}`} readOnly />
 
       <Label>Insira aqui o conteúdo da postagem:</Label>
       <TextArea
