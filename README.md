@@ -57,8 +57,11 @@ npm run dev
 ## Arquitetura da Aplicação
 📂 src/
 ┣ 📂 assets/ → Imagens contidas no projeto e README do projeto
-┣ 📂 components/ → Pastas do projeto contendo as páginas do site
-┗ 📜 App.js → Componente principal
+┣ 📂 components/ → Componentes reutilizáveis
+┣ 📂 contexts/ → Autenticação
+┣ 📂 pages/ → Pastas do projeto contendo as páginas do site
+┣ 📂 reducer/ → Estado global da aplicação
+┗ 📜 App.tsx → Componente principal
 
 ## Guia de Uso
 - Para aluno:
