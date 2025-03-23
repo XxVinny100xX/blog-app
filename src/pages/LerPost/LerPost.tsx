@@ -4,24 +4,32 @@ import styled from 'styled-components';
 import { Post } from '../../types';
 import { getPost } from '../../api';
 
-const PostContainer = styled.div`
+const Wrapper = styled.div`
   width: 100%;
-  padding: 100px;
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const PostContainer = styled.div`
+  width: 90%;
+  padding: 90px 50px;
   background-color: #D9D9D9;
   border-radius: 8px;
 `;
 
 const PostTitle = styled.h2`
   color: #007b85;
+  display: flex;
+  font-size: 32px;
 `;
 
 const PostAuthor = styled.p`
-  font-size: 14px;
+  font-size: 18px; /* Aumentei o tamanho para 18px */
   color: #007b85;
 `;
 
 const PostContent = styled.p`
-  font-size: 16px;
+  font-size: 20px; /* Aumentei o tamanho para 20px */
   color: #333;
   text-align: justify;
 `;
@@ -67,13 +75,13 @@ const PostDetail: React.FC = () => {
   }
 
   return (
-    <div>
+    <Wrapper>
       <PostContainer>
-          <PostTitle>{post.titulo}</PostTitle>
-          <PostAuthor>criado por: {post.autor}</PostAuthor>
-          <PostContent>{post.conteudo}</PostContent>
+        <PostTitle>{post.titulo}</PostTitle>
+        <PostAuthor>criado por: {post.autor}</PostAuthor>
+        <PostContent>{post.conteudo}</PostContent>
       </PostContainer>
-    </div>
+    </Wrapper>
   );
 };
 
