@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   padding: 40px 0;
-  background-color: #f9f9f9;
 `;
 
 const PostContainer = styled.div`
@@ -18,7 +17,6 @@ const PostContainer = styled.div`
   padding: 60px;
   background-color: #D9D9D9;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.01);
 `;
 
 const PostTitle = styled.h2`
@@ -30,7 +28,7 @@ const PostTitle = styled.h2`
 `;
 
 const PostAuthor = styled.p`
-  font-size: 18px; 
+  font-size: 18px;
   color: #007b85;
   margin-bottom: 30px;
   font-style: italic;

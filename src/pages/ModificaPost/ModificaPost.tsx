@@ -14,9 +14,8 @@ const Container = styled.div`
   max-width: 960px;
   margin: 40px auto;
   padding: 40px;
-  background-color: #f5f5f5;
+  background-color: #D9D9D9;
   border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
@@ -36,7 +35,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  width: 100%;
+  width: 95%;
   padding: 14px;
   font-size: 16px;
   border: 1px solid #ccc;
@@ -48,12 +47,11 @@ const Input = styled.input`
 
   &:focus {
     border-color: #00838F;
-    box-shadow: 0 0 5px rgba(0, 131, 143, 0.5);
   }
 `;
 
 const TextArea = styled.textarea`
-  width: 100%;
+  width: 95%;
   height: 200px;
   padding: 14px;
   font-size: 16px;
@@ -62,12 +60,12 @@ const TextArea = styled.textarea`
   resize: vertical;
   background-color: #f8f8f8;
   color: #333;
+  resize: none;
   outline: none;
   line-height: 1.6;
 
   &:focus {
     border-color: #00838F;
-    box-shadow: 0 0 5px rgba(0, 131, 143, 0.5);
   }
 `;
 
@@ -86,7 +84,6 @@ const SaveButton = styled.button`
   padding: 12px 25px;
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 0.3s ease;
 
   &:hover {
     background-color: #45a049;
@@ -102,7 +99,6 @@ const CancelButton = styled.button`
   padding: 12px 25px;
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 0.3s ease;
 
   &:hover {
     background-color: #d32f2f;

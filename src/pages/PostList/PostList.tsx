@@ -13,15 +13,14 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   width: 80%;
-  margin: 20 px auto;
+  margin: 20px auto;
 `;
 
 const ListItem = styled.li`
-  background-color: #ddd;
-  padding: 30px; 
-  margin-bottom: 25px; 
-  border-radius: 12px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
+  background-color: #D9D9D9;
+  padding: 30px;
+  margin-bottom: 25px;
+  border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -38,7 +37,7 @@ const PostTitle = styled.h2`
   margin: 0;
   font-size: 32px;
   color: #00838F;
-  front-weight: 600;
+  font-weight: 600;
   line-height: 1.3;
 `;
 
@@ -59,23 +58,22 @@ const PostContent = styled.p`
 const ButtonAccess = styled.button`
   background-color: #4CAF50;
   color: white;
-  padding: 14px 30px; 
+  padding: 20px 30px;
   text-decoration: none;
-  border-radius: 8px; 
-  font-size: 16px; 
+  border-radius: 8px;
+  font-size: 16px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease; 
-  display: inline-block; 
-  text-align: center; 
+  display: inline-block;
+  text-align: center;
 
   &:hover {
     background-color: #439846;
   }
 `;
 
-const ButtonDelete = styled.button` 
-  background-color: #f44336; 
+const ButtonDelete = styled.button`
+  background-color: #f44336;
   color: white;
   padding: 14px 30px;
   text-decoration: none;
@@ -83,18 +81,17 @@ const ButtonDelete = styled.button`
   font-size: 16px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   display: inline-block;
   text-align: center;
 
   &:hover {
     background-color: #d32f2f;
   }
-  margin-left: 10px; 
+  margin-left: 10px;
 `;
 
 const ButtonEdit = styled(Link)`
-  background-color: #00bcd4; 
+  background-color: #00bcd4;
   color: white;
   padding: 14px 30px;
   text-decoration: none;
@@ -102,13 +99,13 @@ const ButtonEdit = styled(Link)`
   font-size: 16px;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   display: inline-block;
   text-align: center;
   margin-left: 10px;
 
   &:hover {
     background-color: #00acc1;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -129,7 +126,11 @@ const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
           <PostInfo>
             <PostTitle>{post.titulo}</PostTitle>
             <PostAuthor>criado por: {post.autor}</PostAuthor>
-            <PostContent>{post.conteudo}</PostContent>
+            <PostContent>
+              {post.conteudo.length > 120
+                ? `${post.conteudo.substring(0, 120)}...`
+                : post.conteudo}
+            </PostContent>
           </PostInfo>
 
           <ButtonContainer>
@@ -137,12 +138,13 @@ const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
               <ButtonAccess>Acessar Post</ButtonAccess>
             </Link>
           {isLoggedIn && (
-            <ButtonDelete onClick={() => { onDeletePost(post._id);}}>Deletar Post</ButtonDelete>
-          )};
-          {isLoggedIn && (
           <ButtonEdit to={`/modificar/${post._id}`}>Alterar Post</ButtonEdit>
-          )};
-          </ButtonContainer>  
+          )}
+          {isLoggedIn && (
+            <ButtonDelete onClick={() => { onDeletePost(post._id)}}>Deletar Post</ButtonDelete>
+          )}
+
+          </ButtonContainer>
         </ListItem>
       ))}
     </List>

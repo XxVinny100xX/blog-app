@@ -5,20 +5,16 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useState } from 'react';
 
 const LoginPageContainer = styled.div`
-  background-color: #f0f2f5; 
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  padding: 20px; 
 `;
 
 const LoginBox = styled.div`
-  background-color: #fff;
+  background-color: #D9D9D9;
   padding: 40px;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
 `;
@@ -26,18 +22,19 @@ const LoginBox = styled.div`
 const Title = styled.h2`
   color: #00838F;
   font-size: 32px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-weight: 700;
 `;
 
 const SubTitle = styled.p`
   color: #777;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 16px;
+  color: #00838F;
 `;
 
 const Input = styled.input`
-  padding: 14px;
+  padding: 10px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 8px;
@@ -50,7 +47,6 @@ const Input = styled.input`
 
   &:focus {
     border-color: #00838F;
-    box-shadow: 0 0 5px rgba(0, 131, 143, 0.5);
   }
 `;
 
@@ -76,6 +72,7 @@ const BackLink = styled(Link)`
   margin-top: 25px;
   color: #777;
   text-decoration: none;
+  color: #00838F;
   font-size: 15px;
 
   &:hover {
@@ -103,7 +100,6 @@ const Login = () => {
       return;
     }
     try{
-      
       await login(email, password);
       navigate('/');
 
