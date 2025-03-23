@@ -2,9 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { Post } from '../../types';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 interface PostListProps {
   posts: Post[];
+  onDeletePost: (id: string) => void;
 }
 
 const List = styled.ul`
@@ -16,9 +18,9 @@ const List = styled.ul`
 
 const ListItem = styled.li`
   background-color: #ddd;
-  padding: 15px;
-  margin: 15px 0;
-  border-radius: 8px;
+  padding: 35px;
+  margin: 20px 0;
+  border-radius: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,48 +35,84 @@ const PostInfo = styled.div`
 const PostTitle = styled.h2`
   margin: 0;
   font-size: 30px;
-  color: #007b85;
+  color: #00838F;
 `;
 
 const PostAuthor = styled.p`
   margin: 0;
-  font-size: 1px;
-  color: #007b85;
+  font-size: 23px;
+  color: #00838F;
 `;
 
 const PostContent = styled.p`
   margin: 5px 0;
   font-size: 20px;
-  color: #333;
+  color: #000;
 `;
 
 const Button = styled.button`
   background-color: #4CAF50;
   color: white;
-  padding: 10px 15px;
+  padding: 20px 50px;
   text-decoration: none;
   border-radius: 5px;
-  font-weight: bold;
-  transition: background 0.3s;
+  font-size: 17px;
+  border: none;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #439846;
   }
 `;
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
+const ButtonAccess = styled.button`
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px 50px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 17px;
+  border: none;
+
+  &:hover {
+    background-color: #439846;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+`;
+
+const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
+
+  const { isLoggedIn } = useAuth();
+
   return (
     <List>
       {posts.map((post) => (
         <ListItem key={post._id}>
-          <PostInfo>  
+          <PostInfo>
             <PostTitle>{post.titulo}</PostTitle>
             <PostAuthor>criado por: {post.autor}</PostAuthor>
             <PostContent>{post.conteudo}</PostContent>
           </PostInfo>
-          <Link to={`/post/${post._id}`}>
-            <Button>Acessar Post</Button>
+
+          <ButtonContainer>
+            <Link to={`/post/${post._id}`}>
+              <ButtonAccess>Acessar Post</ButtonAccess>
+            </Link>
+          {isLoggedIn && (
+            <Button onClick={() => {
+              onDeletePost(post._id); 
+            }}>Deletar Post</Button>
+          )};
+          {isLoggedIn && (
+          <Link to={`/modificar/${post._id}`}>
+            <ButtonAccess>Alterar Post</ButtonAccess>
           </Link>
+          )};
+          </ButtonContainer>  
         </ListItem>
       ))}
     </List>

@@ -3,51 +3,49 @@ import styled from 'styled-components';
 import { addPost } from '../../api';
 import { useNavigate } from 'react-router-dom';
 
-interface AddPostProps {}
+interface AddPostProps {
+  onPostCreate: () => void;
+}
 
 const Container = styled.div`
-  width: 60%;
-  margin: 0 auto;
-  padding: 20px;
+  width: 100%;
 `;
 
-// Estilização do formulário
+const Title = styled.h2`
+  color: #00838F;
+  font-size: 36px;
+`;
+
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 15px;
 `;
 
-// Estilização dos rótulos
 const Label = styled.label`
-  font-size: 30px;
-  font-weight: bold;
-  color: #006d75;
-  margin-bottom: 5px;
+  font-size: 32px;
+  color: #00838F;
 `;
 
-// Inputs e Textarea com aparência semelhante à imagem
 const Input = styled.input`
-  width: 100%;
   padding: 12px;
   font-size: 20px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
-  background-color: #ddd; /* Cor cinza como na imagem */
+  background-color: #D9D9D9;
+  color: #000;
 `;
 
 const Textarea = styled.textarea`
-  width: 100%;
   height: 300px;
   padding: 12px;
   font-size: 20px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
-  background-color: #ddd; /* Cor cinza como na imagem */
+  background-color: #D9D9D9;
   resize: none;
+  color: #000;
 `;
 
-// Botões
 const ButtonsContainer = styled.div`
   display: flex;
   gap: 10px;
@@ -61,7 +59,6 @@ const Button = styled.button<{ color: string }>`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
   background-color: ${(props) => props.color};
 
   &:hover {
@@ -69,38 +66,44 @@ const Button = styled.button<{ color: string }>`
   }
 `;
 
-const AddPost: React.FC<AddPostProps> = ({}) => {
+const ErrorMessage = styled.p`
+  color: red;
+  font-size: 18px;
+`;
 
-  const [titulo, setTitulo] = useState(""); // Estado para o título
-  const [conteudo, setConteudo] = useState(""); // Estado para o conteúdo
-  const [autor, setAutor] = useState(""); // Estado para o autor
+const AddPost: React.FC<AddPostProps> = ({onPostCreate}) => {
+  const [titulo, setTitulo] = useState('');
+  const [conteudo, setConteudo] = useState('');
+  const [autor, setAutor] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
 
-    if (!titulo || !conteudo || !autor) {
-      setError("Preencha todos os campos!");
-      setLoading(false);
+    if (!titulo.trim() || !conteudo.trim() || !autor.trim()) {
+      setError("Por favor, preencha todos os campos!");
       return;
     }
 
-    const newPost = {titulo, conteudo, autor};
+    setLoading(true);
 
-    try{  
+    const newPost = { titulo, conteudo, autor };
+
+    try {
       const data = await addPost(newPost);
       if (data.success === false) {
         setError(data.error);
       } else {
+        onPostCreate();
         navigate('/');
       }
-    } catch(error) {
+    } catch (error) {
       console.error('Erro ao criar post:', error);
       setError('Erro ao criar post. Tente novamente mais tarde.');
+      setTimeout(() => {setError(null);}, 5000);
     } finally {
       setLoading(false);
     }
@@ -108,15 +111,24 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
 
   return (
     <Container>
-      <h2 style={{ color: '#006d75', fontSize: 40 }}>Criar nova postagem</h2>
+      {error && <ErrorMessage>{error}</ErrorMessage>}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <ButtonsContainer>
+        <Button type="submit" color="#2E8B57" onClick={handleSubmit} disabled={loading}>
+          {loading ? 'Publicando...' : 'Publicar'}
+        </Button>
+        <Button type="button" color="#D32F2F" onClick={() => navigate('/')}>
+          Cancelar
+        </Button>
+      </ButtonsContainer>
+
+      <Title>Criar nova postagem</Title>
 
       <Form onSubmit={handleSubmit}>
-        <Label>Título</Label>
+        <Label>Título:</Label>
         <Input
           type="text"
-          placeholder= "Digite o título"
+          placeholder="Digite o título"
           value={titulo}
           onChange={e => setTitulo(e.target.value)}
         />
@@ -131,22 +143,13 @@ const AddPost: React.FC<AddPostProps> = ({}) => {
         />
         <br />
 
-        <Label>Insira aqui o conteúdo da postagem:</Label>
+        <Label>Conteúdo:</Label>
         <Textarea
           placeholder="Conteúdo do Post"
           value={conteudo}
           onChange={e => setConteudo(e.target.value)}
         />
         <br />
-
-        <ButtonsContainer>
-        <Button type="submit" color="#2E8B57" disabled={loading}>
-            {loading ? 'Publicando...' : 'Publicar'}
-          </Button>
-          <Button type="button" color="#D32F2F" onClick={() => { setTitulo(''); setConteudo(''); setAutor(''); }}>
-            Cancelar
-          </Button>
-        </ButtonsContainer>
       </Form>
     </Container>
   );
