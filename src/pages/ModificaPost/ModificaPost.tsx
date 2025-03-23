@@ -10,62 +10,83 @@ interface ModificaPostProps {
 }
 
 const Container = styled.div`
-  width: 80%;
-  margin: 20px auto;
-  padding: 20px;
+  width: 90%;
+  max-width: 960px;
+  margin: 40px auto;
+  padding: 40px;
   background-color: #f5f5f5;
-  border-radius: 8px;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h2`
   color: #00838F;
+  font-size: 36px;
+  margin-bottom: 30px;
+  text-align: center;
 `;
 
 const Label = styled.label`
-  font-weight: bold;
-  font-size: 18px;
-  margin-top: 10px;
+  font-weight: 500;
+  font-size: 17px;
+  margin-top: 20px;
   display: block;
   color: #00838F;
+  margin-bottom: 8px;
 `;
 
 const Input = styled.input`
-  width: 95%;
-  padding: 10px;
+  width: 100%;
+  padding: 14px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-bottom: 10px;
-  background-color: #ddd;
-  color: #000;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  background-color: #f8f8f8;
+  color: #333;
+  outline: none;
+
+  &:focus {
+    border-color: #00838F;
+    box-shadow: 0 0 5px rgba(0, 131, 143, 0.5);
+  }
 `;
 
 const TextArea = styled.textarea`
-  width: 95%;
-  height: 150px;
-  padding: 10px;
+  width: 100%;
+  height: 200px;
+  padding: 14px;
   font-size: 16px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  resize: none;
-  background-color: #ddd;
-  color: #000;
+  border-radius: 8px;
+  resize: vertical;
+  background-color: #f8f8f8;
+  color: #333;
+  outline: none;
+  line-height: 1.6;
+
+  &:focus {
+    border-color: #00838F;
+    box-shadow: 0 0 5px rgba(0, 131, 143, 0.5);
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  gap: 20px;
 `;
 
 const SaveButton = styled.button`
   background-color: #4CAF50;
   color: white;
-  font-size: 18px;
+  font-size: 17px;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 25px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 
   &:hover {
     background-color: #45a049;
@@ -73,16 +94,18 @@ const SaveButton = styled.button`
 `;
 
 const CancelButton = styled.button`
-  background-color: #d9534f;
+  background-color: #f44336;
   color: white;
-  font-size: 18px;
+  font-size: 17px;
+  font-weight: 500;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 25px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: #c9302c;
+    background-color: #d32f2f;
   }
 `;
 

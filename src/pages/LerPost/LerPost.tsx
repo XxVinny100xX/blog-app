@@ -7,31 +7,41 @@ import { getPost } from '../../api';
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
+  padding: 40px 0;
+  background-color: #f9f9f9;
 `;
 
 const PostContainer = styled.div`
-  width: 90%;
-  padding: 90px 50px;
+  width: 85%;
+  margin-width: 960px;
+  padding: 60px;
   background-color: #D9D9D9;
-  border-radius: 8px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.01);
 `;
 
 const PostTitle = styled.h2`
   color: #007b85;
-  display: flex;
-  font-size: 32px;
+  font-size: 38px;
+  margin-bottom: 20px;
+  line-height: 1.2;
+  font-weight: 700;
 `;
 
 const PostAuthor = styled.p`
-  font-size: 18px; /* Aumentei o tamanho para 18px */
+  font-size: 18px; 
   color: #007b85;
+  margin-bottom: 30px;
+  font-style: italic;
 `;
 
 const PostContent = styled.p`
-  font-size: 20px; /* Aumentei o tamanho para 20px */
-  color: #333;
+  font-size: 18px;
+  color: #444;
   text-align: justify;
+  line-height: 1.7;
+  white-space: pre-line;
 `;
 
 const PostDetail: React.FC = () => {

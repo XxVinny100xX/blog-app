@@ -13,75 +13,109 @@ const List = styled.ul`
   list-style: none;
   padding: 0;
   width: 80%;
-  margin: 0 auto;
+  margin: 20 px auto;
 `;
 
 const ListItem = styled.li`
   background-color: #ddd;
-  padding: 35px;
-  margin: 20px 0;
-  border-radius: 10px;
+  padding: 30px; 
+  margin-bottom: 25px; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08); 
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const PostInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  margin-bottom: 15px;
 `;
 
 const PostTitle = styled.h2`
   margin: 0;
-  font-size: 30px;
+  font-size: 32px;
   color: #00838F;
+  front-weight: 600;
+  line-height: 1.3;
 `;
 
 const PostAuthor = styled.p`
   margin: 0;
-  font-size: 23px;
+  font-size: 18px;
   color: #00838F;
+  font-style: italic;
 `;
 
 const PostContent = styled.p`
-  margin: 5px 0;
-  font-size: 20px;
-  color: #000;
-`;
-
-const Button = styled.button`
-  background-color: #4CAF50;
-  color: white;
-  padding: 20px 50px;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 17px;
-  border: none;
-
-  &:hover {
-    background-color: #439846;
-  }
+  margin: 15px 0 0 0;
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
 `;
 
 const ButtonAccess = styled.button`
   background-color: #4CAF50;
   color: white;
-  padding: 20px 50px;
+  padding: 14px 30px; 
   text-decoration: none;
-  border-radius: 5px;
-  font-size: 17px;
+  border-radius: 8px; 
+  font-size: 16px; 
   border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
+  display: inline-block; 
+  text-align: center; 
 
   &:hover {
     background-color: #439846;
   }
 `;
 
+const ButtonDelete = styled.button` 
+  background-color: #f44336; 
+  color: white;
+  padding: 14px 30px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+  margin-left: 10px; 
+`;
+
+const ButtonEdit = styled(Link)`
+  background-color: #00bcd4; 
+  color: white;
+  padding: 14px 30px;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #00acc1;
+`;
+
 const ButtonContainer = styled.div`
   display: flex;
-  gap: 10px;
-  margin-left: auto;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-top: 20px;
 `;
 
 const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
@@ -103,14 +137,10 @@ const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
               <ButtonAccess>Acessar Post</ButtonAccess>
             </Link>
           {isLoggedIn && (
-            <Button onClick={() => {
-              onDeletePost(post._id); 
-            }}>Deletar Post</Button>
+            <ButtonDelete onClick={() => { onDeletePost(post._id);}}>Deletar Post</ButtonDelete>
           )};
           {isLoggedIn && (
-          <Link to={`/modificar/${post._id}`}>
-            <ButtonAccess>Alterar Post</ButtonAccess>
-          </Link>
+          <ButtonEdit to={`/modificar/${post._id}`}>Alterar Post</ButtonEdit>
           )};
           </ButtonContainer>  
         </ListItem>
