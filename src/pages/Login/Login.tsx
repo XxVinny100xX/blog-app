@@ -72,10 +72,10 @@ const Login = () => {
       return;
     }
     try{
+      
       await login(email, password);
-      console.log("TeacherLogin: Navigating to '/'..."); // Debug log before
       navigate('/');
-      console.log("TeacherLogin: navigate('/') function executed!");
+
     } catch(error) {
       setError('Email ou senha incorretos!');
         setTimeout(() => setError(null), 5000);

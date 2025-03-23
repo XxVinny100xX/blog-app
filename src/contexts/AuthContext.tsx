@@ -20,7 +20,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setTimeout(() => { // Simulate a short delay (like an API call would have)
         if(email === 'testesfiap3fsdt@gmail.com' && password === '1234') {
           setIsLoggedIn(true);
-          resolve; // Resolve the Promise on successful login
+          resolve(); // Resolve the Promise on successful login
         } else {
           reject(new Error("Invalid credentials")); // Reject the Promise on failed login
         }
