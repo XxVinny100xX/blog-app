@@ -6,6 +6,7 @@ import { updatePost } from '../../api';
 
 interface ModificaPostProps {
   posts: Post[];
+  onPostUpdate: () => void;
 }
 
 const Container = styled.div`
@@ -85,7 +86,7 @@ const CancelButton = styled.button`
   }
 `;
 
-const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
+const ModificaPost: React.FC<ModificaPostProps> = ({ posts, onPostUpdate}) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<Post | undefined>(undefined);
@@ -114,12 +115,14 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
 
     if(!titulo || !conteudo || !autor) {
       setError('Preencha todos os campos!');
+      setTimeout(() => {setError(null);}, 5000);
       setLoading(false);
       return;
     }
 
     if (!post || !post._id) {
       setError('Post não encontrado!');
+      setTimeout(() => {setError(null);}, 5000);
       setLoading(false);
       return;
     }
@@ -135,11 +138,13 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
       if (data.success === false) {
         setError(data.error);
       } else {
+        onPostUpdate();
         navigate('/');
       }
     }catch(error) {
       console.error('Erro ao atualizar post:', error);
       setError('Erro ao atualizar o post. Tente novamente mais tarde.');
+      setTimeout(() => {setError(null);}, 5000);
     }finally{
       setLoading(false);
     }
@@ -156,16 +161,13 @@ const ModificaPost: React.FC<ModificaPostProps> = ({ posts }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       <Label>Título:</Label>
-      <Input type="text" value={post.titulo} onChange={e => setPost({ ...post, titulo: e.target.value })}/>
+      <Input type="text" value={titulo} onChange={e => setTitulo(e.target.value)} />
 
-      <Label>Autor:</Label>
-      <Input type="text" value={`${post.autor}`} readOnly />
+      <Label>Criado pelo Autor:</Label>
+      <Input type="text" value={autor} onChange={e => setAutor(e.target.value)} />
 
       <Label>Insira aqui o conteúdo da postagem:</Label>
-      <TextArea
-        value={post.conteudo}
-        onChange={e => setPost({ ...post, conteudo: e.target.value })}
-      />
+      <TextArea value={conteudo} onChange={e => setConteudo(e.target.value)}/>
 
       <ButtonContainer>
         <SaveButton onClick={handleSave} disabled={loading}>

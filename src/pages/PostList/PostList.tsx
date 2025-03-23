@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { Post } from '../../types';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { deletePost } from '../../api';
 
 interface PostListProps {
   posts: Post[];
+  onDeletePost: (id: string) => void;
 }
 
 const List = styled.ul`
@@ -84,8 +84,10 @@ const ButtonContainer = styled.div`
   margin-left: auto;
 `;
 
-const PostList: React.FC<PostListProps> = ({ posts }) => {
+const PostList: React.FC<PostListProps> = ({ posts, onDeletePost }) => {
+
   const { isLoggedIn } = useAuth();
+
   return (
     <List>
       {posts.map((post) => (
@@ -100,19 +102,17 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
             <Link to={`/post/${post._id}`}>
               <ButtonAccess>Acessar Post</ButtonAccess>
             </Link>
-            {isLoggedIn && (
-              <Link to={`/modificar/${post._id}`}>
-                <Button>Editar Post</Button>
-              </Link>
-            )}
-            {isLoggedIn && (
-              <Button onClick={() => {
-                deletePost(post._id);
-                window.location.reload();
-              }}>Deletar Post</Button>
-            )}
-          </ButtonContainer>
-
+          {isLoggedIn && (
+            <Button onClick={() => {
+              onDeletePost(post._id); 
+            }}>Deletar Post</Button>
+          )};
+          {isLoggedIn && (
+          <Link to={`/modificar/${post._id}`}>
+            <ButtonAccess>Alterar Post</ButtonAccess>
+          </Link>
+          )};
+          </ButtonContainer>  
         </ListItem>
       ))}
     </List>

@@ -1,7 +1,12 @@
 import React from 'react';
-import { Link, useLocation, useNavigate  } from 'react-router-dom';
+import { Link, useNavigate  } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../../contexts/AuthContext';
+
+interface HeaderProps {
+  searchTerm: string;
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -79,7 +84,7 @@ const ButtonHeader = styled.button`
   }
 `;
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ searchTerm, onSearchChange}) => {
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
 
@@ -111,8 +116,11 @@ const Header: React.FC = () => {
             </>
           )}
         </Nav>
-
-        <SearchInput type="text" placeholder="Buscar..." />
+        <SearchInput
+          type="text"
+          placeholder="Buscar..."
+          value={searchTerm}
+          onChange={onSearchChange}/>
       </SearchBarContainer>
     </>
   );

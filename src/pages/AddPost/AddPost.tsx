@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { addPost } from '../../api';
 import { useNavigate } from 'react-router-dom';
 
-interface AddPostProps {}
+interface AddPostProps {
+  onPostCreate: () => void;
+}
 
 const Container = styled.div`
   width: 100%;
@@ -69,7 +71,7 @@ const ErrorMessage = styled.p`
   font-size: 18px;
 `;
 
-const AddPost: React.FC<AddPostProps> = () => {
+const AddPost: React.FC<AddPostProps> = ({onPostCreate}) => {
   const [titulo, setTitulo] = useState('');
   const [conteudo, setConteudo] = useState('');
   const [autor, setAutor] = useState('');
@@ -95,11 +97,13 @@ const AddPost: React.FC<AddPostProps> = () => {
       if (data.success === false) {
         setError(data.error);
       } else {
+        onPostCreate();
         navigate('/');
       }
     } catch (error) {
       console.error('Erro ao criar post:', error);
-      setError("Erro ao criar o post. Tente novamente mais tarde.");
+      setError('Erro ao criar post. Tente novamente mais tarde.');
+      setTimeout(() => {setError(null);}, 5000);
     } finally {
       setLoading(false);
     }
