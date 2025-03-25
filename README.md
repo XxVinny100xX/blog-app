@@ -50,7 +50,7 @@ docker compose logs
 
 - Estando tudo certo,volte para a pasta do projeto front-end e rode o projeto com o comando:
 ```bash
-npm run dev
+docker compose up -d --build
 ```
 - Acesse no navegador: http://localhost:5173
 
